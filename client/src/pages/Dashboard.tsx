@@ -24,6 +24,12 @@ function Dashboard() {
   const [employees, setEmployees] = useState<responseData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<boolean>(false);
+  const [filteredEmployees, setFilteredEmployees] = useState<responseData[]>([]); // Filtered employees
+  const [filter, setFilter] = useState<string>("All"); // State for filter
+
+
+  const divisions = ["All", "HR", "Engineering", "Finance", "Marketing"];
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -31,7 +37,7 @@ function Dashboard() {
       try {
         const response = await axios.get('http://localhost:3001/employees');
         setEmployees(response.data);
-        console.log(response.data)
+        setFilteredEmployees(response.data)
         setLoading(false);
       } catch (error) {
         console.error('Failed to fetch sales data', error);
@@ -40,6 +46,20 @@ function Dashboard() {
 
     fetchEmployees();
   }, []);
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedDivision = e.target.value;
+    setFilter(selectedDivision);
+
+    if (selectedDivision === "All") {
+      // Show all employees if "All" is selected
+      setFilteredEmployees(employees);
+    } else {
+      // Filter employees based on selected division
+      const filteredData = employees.filter((employee) => employee.division === selectedDivision);
+      setFilteredEmployees(filteredData);
+    }
+  };
 
   const handleDetail = async (id: string) => {
     const result = await Swal.fire({
@@ -131,6 +151,20 @@ function Dashboard() {
             </div>
           </div>
           <div className="overflow-x-auto mt-5 tbt:self-center">
+            <div className="p-4 flex items-center">
+              <label className="font-bold mr-2">Filter by Division:</label>
+              <select
+                className="border rounded px-4 py-2"
+                value={filter}
+                onChange={handleFilterChange}
+              >
+                {divisions.map((division) => (
+                  <option key={division} value={division}>
+                    {division}
+                  </option>
+                ))}
+              </select>
+            </div>
             <table className="bg-white">
               <thead>
                 <tr className="text-center text-xs md:text-base font-bold text-sky-900">
@@ -145,8 +179,8 @@ function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {employees.length > 0 ? (
-                  employees.map((employee, index) => (
+                {filteredEmployees.length > 0 ? (
+                  filteredEmployees.map((employee, index) => (
                     <tr key={employee.id} className="border-t">
                       <td className="px-2 py-2">{index + 1}</td>
                       <td className="px-2 py-2">{employee.id}</td>
@@ -181,7 +215,7 @@ function Dashboard() {
                 ) : (
                   <tr>
                     <td colSpan={8} className="justify-center items-center text-3xl text-center font-bold p-8">
-                      No employees available
+                      No employees
                     </td>
                   </tr>
                 )}
