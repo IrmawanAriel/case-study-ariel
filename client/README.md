@@ -1,74 +1,50 @@
-# Employee Database CRUD Application Instructions
+# React + TypeScript + Vite
 
-## Objective:
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Develop a basic CRUD (Create, Read, Update, Delete) application using a JavaScript framework or vanilla JavaScript.
+Currently, two official plugins are available:
 
-## Task Overview:
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-Create a simple table application that allows users to:
+## Expanding the ESLint configuration
 
-- Add new rows to the table with specified data.
-- Edit existing rows and update their data.
-- Delete rows from the table.
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-## Requirements:
+- Configure the top-level `parserOptions` property like this:
 
-1. **Technology:**
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-   - Choose any JavaScript framework or library you are comfortable with (e.g., React, Vue, jQuery, vanilla JavaScript).
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-2. **Data Storage:**
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
 
-   - Use the provided JSON server to post/read the data.
-
-3. **User Interface:**
-
-   - Design a user-friendly interface with clear labels and input fields.
-
-4. **Functionality:**
-
-   - Ensure the CRUD operations work as expected, with proper error handling and validation.
-
-5. **State Management:**
-
-   - Implement state management using a suitable approach for your chosen framework (e.g., Redux, Pinia, useState/useReducer).
-
-6. **Responsiveness (optional):**
-   - Ensure the application adapts to different screen sizes.
-
-## Page Structure/Layout:
-
-1. **Form Create:**
-
-   - Use a page for the form.
-   - Autogenerate the NIP using the format: `AQI-[joinDate (ddmmyyyy)]-[auto-increment]`.
-     - Example: `AQI-13112024-001`, `AQI-03012025-002`.
-
-2. **Form Update:**
-
-   - Use a page with auto-populated data.
-   - Disable the NIP and Join Date fields.
-
-3. **Detail Page:**
-
-   - Include buttons to update (redirect to form update) and delete (remove from JSON).
-
-4. **Index Page:**
-   - Display a table with data from the API (read).
-   - Include a filter/search section to filter the data.
-   - Provide action buttons to update/delete.
-   - Add a button to create new entries.
-
-## Data Structure (Table Employee):
-
-- **NIP (Nomer Induk Pegawai)**
-- **First name**
-- **Last name**
-- **Address**
-- **Position**
-- **Salary**
-- **Division**
-- **Working Status**
-- **Birthday**
-- **Join Date**
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
