@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Search } from 'react-router-dom';
 import eye from '../assets/icons/eye.svg';
 import edit from '../assets/icons/edit.svg';
 import deleteIcon from '../assets/icons/trash.svg';
 import threeDots from '../assets/icons/threeDots.svg'
+import SearchLight from '../assets/icons/SearchLight.svg'
 import Swal from 'sweetalert2';
 import moment from 'moment';
 // import { useStoreDispatch } from '../redux/hooks';
@@ -31,6 +32,7 @@ function Dashboard() {
   const [filterDivision, setFilterDivision] = useState<string>("All");
   const [filterWorkingStatus, setFilterWorkingStatus] = useState<string>("All");
   const [filterPosition, setFilterPosition] = useState<string>("All");
+  const [searchName,setSearch] = useState<string>('')
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -162,7 +164,7 @@ function Dashboard() {
 
   return (
     <main className="flex flex-col pb-16 px-2 tbt:px-10 lg:px-32 bg-neutral-100 font-mulish h-screen">
-      <section className="flex flex-col self-center mt-16 w-full bg-white rounded-3xl max-w-[1105px] max-md:mt-10 max-md:max-w-full bg-slate-100 border-2">
+      <section className="flex flex-col self-center my-16 w-full bg-white rounded-3xl max-w-[1105px] max-md:mt-10 max-md:max-w-full bg-slate-100 border-2">
         <div className="flex flex-col px-14 pt-6 pb-10 w-full bg-white rounded-3xl max-md:px-5 max-md:max-w-full">
           <div className="flex flex-wrap gap-5 justify-between w-full max-md:max-w-full">
             <h1 className="my-auto text-2xl font-bold text-slate-900">List Employees</h1>
@@ -180,14 +182,24 @@ function Dashboard() {
             </div>
           </div>
           <div className="overflow-x-auto mt-5">
-          <div className="relative">
+            <div className="relative flex justify-between">
               <button
-                className='p-2 rounded-lg bg-green-400'
+                className='p-2 rounded-lg bg-green-400 flex items-center gap-2'
                 onClick={() => setDropdownVisible(!dropdownVisible)}
               >
                 <img src={threeDots} alt="" />
                 <p>Filter</p>
               </button>
+
+              <div className="flex gap-4 p-3 tracking-wider bg-white rounded border border-solid border-neutral-200 text-slate-400">
+                <img loading="lazy" src={SearchLight} alt="" className="object-contain shrink-0 w-6 aspect-square" />
+                <input type="text" className="flex-auto outline-none" placeholder="New Born Expert" onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    setSearch((e.target as HTMLInputElement).value);
+                  }
+                }} />
+              </div>
+
               {dropdownVisible && (
                 <div className="absolute z-10 bg-white shadow-md rounded p-4">
                   <div className="flex flex-col">
