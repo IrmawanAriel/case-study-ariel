@@ -1,15 +1,73 @@
 {
   "employees": [
     {
-      "nip": "AQI-1212023-001",
+      "id": "AQI-26092024-0",
+      "firstName": "ariel",
+      "lastName": "irmawan",
+      "address": "5HXJ+HFV, Jl. Vila Istana Bunga, Cihanjuang Rahayu, Kec. Parongpong, Kabupaten Bandung Barat, Jawa Barat 40559",
+      "position": "Team Lead",
+      "salary": "5000000",
+      "division": "Engineering",
+      "birthDate": "2024-09-26",
+      "joinDate": "2024-09-26",
+      "workingStatus": "Active"
+    },
+    {
+      "id": "AQI-27092024-1",
+      "firstName": "testing",
+      "lastName": "irmawan",
+      "address": "5HXJ+HFV, Jl. Vila Istana Bunga, Cihanjuang Rahayu, Kec. Parongpong, Kabupaten Bandung Barat, Jawa Barat 40559",
+      "position": "Manager",
+      "salary": "5000000",
+      "division": "Marketing",
+      "birthDate": "2024-09-28",
+      "joinDate": "2024-09-27",
+      "workingStatus": "Contract"
+    },
+    {
+      "id": "AQI-26092024-2",
+      "firstName": "testing",
+      "lastName": "irmawan",
+      "address": "5HXJ+HFV, Jl. Vila Istana Bunga, Cihanjuang Rahayu, Kec. Parongpong, Kabupaten Bandung Barat, Jawa Barat 40559",
+      "position": "Manager",
+      "salary": "5000000",
+      "division": "Engineering",
+      "birthDate": "2024-09-26",
+      "joinDate": "2024-09-26",
+      "workingStatus": "Contract"
+    },
+    {
       "firstName": "Budi",
       "lastName": "Newgate",
       "address": "Jalan Wahid hasyim no 8",
       "position": "Javascript Developer",
       "salary": 7000000,
       "division": "Kintone",
-      "birthDate": "03-12-1997",
-      "joinDate": "13-11-2024"
+      "birthDate": "0012-12-31",
+      "workingStatus": "Active",
+      "id": "AQI-1212023-001"
+    },
+    {
+      "firstName": "ariel",
+      "lastName": "irmawan",
+      "address": "5HXJ+HFV, Jl. Vila Istana Bunga, Cihanjuang Rahayu, Kec. Parongpong, Kabupaten Bandung Barat, Jawa Barat 40559",
+      "position": "Team Lead",
+      "salary": "5000000",
+      "division": "Marketing",
+      "birthDate": "2001-12-12",
+      "workingStatus": "Active",
+      "id": "AQI-121220001-001"
+    },
+    {
+      "firstName": "thimoty",
+      "lastName": "Newgate",
+      "address": "Jatimulya, Tambun Selatan, Bekasi",
+      "position": "Team Lead",
+      "salary": "21000000",
+      "division": "Marketing",
+      "birthDate": "2001-12-12",
+      "workingStatus": "Contract",
+      "id": "AQI-12122009-001"
     }
   ]
 }

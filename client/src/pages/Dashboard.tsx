@@ -32,7 +32,7 @@ function Dashboard() {
   const [filterDivision, setFilterDivision] = useState<string>("All");
   const [filterWorkingStatus, setFilterWorkingStatus] = useState<string>("All");
   const [filterPosition, setFilterPosition] = useState<string>("All");
-  const [searchName,setSearch] = useState<string>('')
+  const [Name, setName] = useState<string>('')
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -56,7 +56,19 @@ function Dashboard() {
     fetchEmployees();
   }, []);
 
+  const setSearch = (name: string) => {
+    
+    const employeesByName = employees.filter((employee) => 
+      `${employee.firstName} ${employee.lastName}`
+        .toLowerCase()
+        .includes(name.toLowerCase())
+    );
+    
+    setFilteredEmployees(employeesByName); 
+  };
+
   const applyFilters = () => {
+    setDropdownVisible(false)
     let filteredData = employees;
 
     if (filterDivision !== "All") {
