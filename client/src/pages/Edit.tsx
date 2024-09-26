@@ -1,9 +1,9 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-interface ResponseData {
+interface EmployeeInterface {
     id?: string;
     firstName: string;
     lastName: string;
@@ -17,7 +17,9 @@ interface ResponseData {
 }
 
 const EditEmployeeForm = () => {
-    const [formData, setFormData] = useState<ResponseData>({
+    const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState<EmployeeInterface>({
         firstName: '',
         lastName: '',
         address: '',
@@ -28,51 +30,61 @@ const EditEmployeeForm = () => {
         joinDate: ''
     });
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        const getData = async () => {
 
-    const [nipCounter, setNipCounter] = useState<number>(1);
+            try {
+                let result = await axios.get(`http://localhost:3001/employees/${id}`)
+                if (result.status !== 200) {
+                    throw new Error
+                }
+
+                setFormData(result.data)
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getData()
+    }, [id])
+
+    console.log()
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const generateNIP = (joinDate: string): string => {
-        const formattedDate = joinDate.split('-').reverse().join('');
-        const autoIncrement = String(nipCounter).padStart(3, '0');
-        return `AQI-${formattedDate}-${autoIncrement}`;
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const generatedNip = generateNIP(formData.joinDate);
-        const finalData = { ...formData, id: generatedNip };
 
         // SweetAlert confirmation
         const confirmation = await Swal.fire({
             title: 'Konfirmasi',
-            text: 'Apakah Anda yakin ingin menginput data ini?',
+            text: 'Apakah Anda yakin ingin mengedit data ini?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Ya, kirim!',
+            confirmButtonText: 'Ya, edit!',
             cancelButtonText: 'Tidak'
         });
 
         if (confirmation.isConfirmed) {
             try {
-                console.log(finalData);
-                const res = await axios.post('http://localhost:3001/employees/', finalData)
-                if (res.status !== 201) {
+                console.log(formData);
+                const res = await axios.put(`http://localhost:3001/employees/${id}`, formData)
+                if (res.status !== 200) {
                     throw new Error;
                 }
-
-                setNipCounter(prev => prev + 1); // Increment NIP
-                Swal.fire('Sukses!', 'Data berhasil dikirim.', 'success');
+                Swal.fire('Sukses!', 'Data berhasil diedit.', 'success');
                 navigate('/')
             } catch (error) {
                 Swal.fire('Error!', `Terjadi kesalahan: ${error}`, 'error');
             }
         }
+    }
+
+    if (!formData) {
+        return <div> Loading... </div>
     }
 
     return (
@@ -88,6 +100,16 @@ const EditEmployeeForm = () => {
                 </div>
 
                 <form onSubmit={handleSubmit} className='flex-col gap-2 flex'>
+                    <div className='flex gap-4 md:p-4 flex-col'>
+                        <label className='text-m font-semibold'>NIP:</label>
+                        <input
+                            className='outline-none border rounded-lg w-full p-4'
+                            type="text"
+                            name="NIP"
+                            value={id}
+                            disabled={true}
+                        />
+                    </div>
                     <div className='flex gap-4 md:p-4 flex-col'>
                         <label className='text-m font-semibold'>First Name:</label>
                         <input
@@ -158,7 +180,7 @@ const EditEmployeeForm = () => {
                             placeholder='Enter Division'
                             value={formData.division}
                             onChange={handleInputChange}
-                            required
+                            
                         />
                     </div>
                     <div className='flex gap-4 md:p-4 flex-col'>
@@ -179,10 +201,8 @@ const EditEmployeeForm = () => {
                             className='outline-none border rounded-lg w-full p-4'
                             type="date"
                             name="joinDate"
-                            placeholder='Enter Join Date'
                             value={formData.joinDate}
-                            onChange={handleInputChange}
-                            required
+                            disabled={true}
                         />
                     </div>
                     <div className='justify-center items-center flex'>
