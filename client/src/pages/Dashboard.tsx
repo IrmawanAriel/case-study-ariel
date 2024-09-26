@@ -32,18 +32,18 @@ function Dashboard() {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const fetchEmployees = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/employees');
-        setEmployees(response.data);
-        setFilteredEmployees(response.data)
-        setLoading(false);
-      } catch (error) {
-        console.error('Failed to fetch sales data', error);
-      }
-    };
+  const fetchEmployees = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/employees');
+      setEmployees(response.data);
+      setFilteredEmployees(response.data)
+      setLoading(false);
+    } catch (error) {
+      console.error('Failed to fetch sales data', error);
+    }
+  };
 
+  useEffect(() => {
     fetchEmployees();
   }, []);
 
@@ -114,6 +114,7 @@ function Dashboard() {
         }
         setEmployees(employees.filter((employee) => employee.id !== id));
         Swal.fire('Deleted!', 'The employee has been deleted.', 'success');
+        fetchEmployees()
       } catch (error) {
         console.error('Failed to delete employee:', error);
         setError(true);
@@ -150,11 +151,12 @@ function Dashboard() {
               </Link>
             </div>
           </div>
-          <div className="overflow-x-auto mt-5 tbt:self-center">
+          <div className="overflow-x-auto mt-5">
             <div className="p-4 flex items-center">
               <label className="font-bold mr-2">Filter by Division:</label>
+              <div className='border p-2'>
               <select
-                className="border rounded px-4 py-2"
+                className="outline-none rounded p-2"
                 value={filter}
                 onChange={handleFilterChange}
               >
@@ -164,6 +166,8 @@ function Dashboard() {
                   </option>
                 ))}
               </select>
+              </div>
+              
             </div>
             <table className="bg-white">
               <thead>

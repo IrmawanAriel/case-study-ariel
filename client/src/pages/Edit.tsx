@@ -58,7 +58,7 @@ const EditEmployeeForm = () => {
         getData()
     }, [id])
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
@@ -156,15 +156,21 @@ const EditEmployeeForm = () => {
                     </div>
                     <div className='flex gap-4 md:p-4 flex-col'>
                         <label className='text-m font-semibold'>Position:</label>
-                        <input
+                        <select
                             className='outline-none border rounded-lg w-full p-4'
-                            type="text"
                             name="position"
-                            placeholder='Enter Position'
                             value={formData.position}
                             onChange={handleInputChange}
                             required
-                        />
+                        >
+                            <option value="" disabled>Select Position</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Team Lead">Team Lead</option>
+                            <option value="Senior Developer">Senior Developer</option>
+                            <option value="Junior Developer">Junior Developer</option>
+                            <option value="Javascript Developer">Javascript Developer</option>
+                            <option value="Intern">Intern</option>
+                        </select>
                     </div>
                     <div className='flex gap-4 md:p-4 flex-col'>
                         <label className='text-m font-semibold'>Salary:</label>
@@ -181,15 +187,21 @@ const EditEmployeeForm = () => {
                     </div>
                     <div className='flex gap-4 md:p-4 flex-col'>
                         <label className='text-m font-semibold'>Division:</label>
-                        <input
+                        <select
                             className='outline-none border rounded-lg w-full p-4'
-                            type="text"
                             name="division"
-                            placeholder='Enter Division'
                             value={formData.division}
                             onChange={handleInputChange}
-                            
-                        />
+                            required
+                        >
+                            <option value="" disabled>Select Division</option>
+                            <option value="HR">HR</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Kintone">Kintone</option>
+                        </select>
                     </div>
                     <div className='flex gap-4 md:p-4 flex-col'>
                         <label className='text-m font-semibold'>Birth Date:</label>
