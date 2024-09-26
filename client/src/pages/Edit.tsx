@@ -11,7 +11,7 @@ interface EmployeeInterface {
     position: string;
     salary: string;
     division: string;
-    workingStatus?: string;
+    workingStatus: string;
     birthDate: string;
     // joinDate: string;
 }
@@ -28,6 +28,7 @@ const EditEmployeeForm = () => {
         salary: '',
         division: '',
         birthDate: '',
+        workingStatus: ''
         // joinDate: ''
     });
 
@@ -47,7 +48,8 @@ const EditEmployeeForm = () => {
                     position: result.data.position,
                     salary: result.data.salary,
                     division: result.data.division,
-                    birthDate: result.data.birthDate
+                    birthDate: result.data.birthDate,
+                    workingStatus: result.data.workingStatus
                 })
                 setJoinDate(result.data.joinDate)
 
@@ -201,6 +203,25 @@ const EditEmployeeForm = () => {
                             <option value="Finance">Finance</option>
                             <option value="Sales">Sales</option>
                             <option value="Kintone">Kintone</option>
+                        </select>
+                    </div>
+                    <div className='flex gap-4 md:p-4 flex-col'>
+                        <label className='text-m font-semibold'>Working Status:</label>
+                        <select
+                            className='outline-none border rounded-lg w-full p-4'
+                            name="workingStatus"
+                            value={formData.workingStatus}
+                            onChange={handleInputChange}
+                            required
+                        >
+                            <option value="" disabled>Select Working Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                            <option value="Probation">Probation</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Resigned">Resigned</option>
+                            <option value="Terminated">Terminated</option>
+                            <option value="Retired">Retired</option>
                         </select>
                     </div>
                     <div className='flex gap-4 md:p-4 flex-col'>

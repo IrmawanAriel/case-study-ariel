@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { useStoreDispatch, useStoreSelector } from '../redux/hooks';
+import { setIncrementCounter } from '../redux/slices/increment';
 
 interface ResponseData {
   id?: string;
@@ -11,7 +13,7 @@ interface ResponseData {
   position: string;
   salary: string;
   division: string;
-  workingStatus?: string;
+  workingStatus: string;
   birthDate: string;
   joinDate: string;
 }
@@ -25,22 +27,22 @@ const CreateEmployeeForm = () => {
     salary: '',
     division: '',
     birthDate: '',
-    joinDate: ''
+    joinDate: '',
+    workingStatus: ''
   });
 
   const navigate = useNavigate();
+  const { counter } = useStoreSelector((state) => state.counter);
+  const dispatch = useStoreDispatch();
 
-  const [nipCounter, setNipCounter] = useState<number>(1);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement| HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const generateNIP = (joinDate: string): string => {
     const formattedDate = joinDate.split('-').reverse().join('');
-    const autoIncrement = String(nipCounter).padStart(3, '0');
-    return `AQI-${formattedDate}-${autoIncrement}`;
+    return `AQI-${formattedDate}-${counter}`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -65,8 +67,7 @@ const CreateEmployeeForm = () => {
         if (res.status !== 201) {
           throw new Error;
         }
-
-        setNipCounter(prev => prev + 1); // Increment NIP
+        dispatch(setIncrementCounter())
         Swal.fire('Sukses!', 'Data berhasil dikirim.', 'success');
         navigate('/')
       } catch (error) {
@@ -171,6 +172,25 @@ const CreateEmployeeForm = () => {
               <option value="Finance">Finance</option>
               <option value="Sales">Sales</option>
               <option value="Kintone">Kintone</option>
+            </select>
+          </div>
+          <div className='flex gap-4 md:p-4 flex-col'>
+            <label className='text-m font-semibold'>Working Status:</label>
+            <select
+              className='outline-none border rounded-lg w-full p-4'
+              name="workingStatus"
+              value={formData.workingStatus} 
+              onChange={handleInputChange}
+              required
+            >
+              <option value="" disabled>Select Working Status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Probation">Probation</option>
+              <option value="Contract">Contract</option>
+              <option value="Resigned">Resigned</option>
+              <option value="Terminated">Terminated</option>
+              <option value="Retired">Retired</option>
             </select>
           </div>
           <div className='flex gap-4 md:p-4 flex-col'>

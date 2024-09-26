@@ -4,8 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import eye from '../assets/icons/eye.svg';
 import edit from '../assets/icons/edit.svg';
 import deleteIcon from '../assets/icons/trash.svg';
+import threeDots from '../assets/icons/threeDots.svg'
 import Swal from 'sweetalert2';
 import moment from 'moment';
+// import { useStoreDispatch } from '../redux/hooks';
+// import { setDecrementCounter } from '../redux/slices/increment';
 
 interface responseData {
   id: string;
@@ -15,7 +18,7 @@ interface responseData {
   position: string;
   salary: string;
   division: string;
-  WorkingStatus?: String;
+  workingStatus: String;
   birthDate: Date;
   joinDate: string;
 }
@@ -24,13 +27,17 @@ function Dashboard() {
   const [employees, setEmployees] = useState<responseData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<boolean>(false);
-  const [filteredEmployees, setFilteredEmployees] = useState<responseData[]>([]); // Filtered employees
-  const [filter, setFilter] = useState<string>("All"); // State for filter
+  const [filteredEmployees, setFilteredEmployees] = useState<responseData[]>([]);
+  const [filterDivision, setFilterDivision] = useState<string>("All");
+  const [filterWorkingStatus, setFilterWorkingStatus] = useState<string>("All");
+  const [filterPosition, setFilterPosition] = useState<string>("All");
+  const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
 
+  const navigate = useNavigate();
 
   const divisions = ["All", "HR", "Engineering", "Finance", "Marketing"];
-
-  const navigate = useNavigate()
+  const workingStatuses = ["All", "Active", "Inactive"];
+  const positions = ["All", "Manager", "Developer", "Designer", "Analyst"];
 
   const fetchEmployees = async () => {
     try {
@@ -47,17 +54,39 @@ function Dashboard() {
     fetchEmployees();
   }, []);
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedDivision = e.target.value;
-    setFilter(selectedDivision);
+  const applyFilters = () => {
+    let filteredData = employees;
 
-    if (selectedDivision === "All") {
-      // Show all employees if "All" is selected
-      setFilteredEmployees(employees);
-    } else {
-      // Filter employees based on selected division
-      const filteredData = employees.filter((employee) => employee.division === selectedDivision);
-      setFilteredEmployees(filteredData);
+    if (filterDivision !== "All") {
+      filteredData = filteredData.filter((employee) => employee.division === filterDivision);
+    }
+
+    if (filterWorkingStatus !== "All") {
+      filteredData = filteredData.filter((employee) => employee.workingStatus === filterWorkingStatus);
+    }
+
+    if (filterPosition !== "All") {
+      filteredData = filteredData.filter((employee) => employee.position === filterPosition);
+    }
+
+    setFilteredEmployees(filteredData);
+  };
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>, filterType: string) => {
+    const selectedValue = e.target.value;
+
+    switch (filterType) {
+      case 'division':
+        setFilterDivision(selectedValue);
+        break;
+      case 'workingStatus':
+        setFilterWorkingStatus(selectedValue);
+        break;
+      case 'position':
+        setFilterPosition(selectedValue);
+        break;
+      default:
+        break;
     }
   };
 
@@ -123,7 +152,6 @@ function Dashboard() {
     }
   };
 
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -152,22 +180,65 @@ function Dashboard() {
             </div>
           </div>
           <div className="overflow-x-auto mt-5">
-            <div className="p-4 flex items-center">
-              <label className="font-bold mr-2">Filter by Division:</label>
-              <div className='border p-2'>
-              <select
-                className="outline-none rounded p-2"
-                value={filter}
-                onChange={handleFilterChange}
+          <div className="relative">
+              <button
+                className='p-2 rounded-lg bg-green-400'
+                onClick={() => setDropdownVisible(!dropdownVisible)}
               >
-                {divisions.map((division) => (
-                  <option key={division} value={division}>
-                    {division}
-                  </option>
-                ))}
-              </select>
-              </div>
-              
+                <img src={threeDots} alt="" />
+                <p>Filter</p>
+              </button>
+              {dropdownVisible && (
+                <div className="absolute z-10 bg-white shadow-md rounded p-4">
+                  <div className="flex flex-col">
+                    <div className="mb-4">
+                      <label className="font-bold mr-2">Filter by Division:</label>
+                      <select
+                        className="outline-none rounded p-2"
+                        value={filterDivision}
+                        onChange={(e) => handleFilterChange(e, 'division')}
+                      >
+                        {divisions.map((division) => (
+                          <option key={division} value={division}>
+                            {division}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="mb-4">
+                      <label className="font-bold mr-2">Filter by Working Status:</label>
+                      <select
+                        className="outline-none rounded p-2"
+                        value={filterWorkingStatus}
+                        onChange={(e) => handleFilterChange(e, 'workingStatus')}
+                      >
+                        {workingStatuses.map((status) => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="mb-4">
+                      <label className="font-bold mr-2">Filter by Position:</label>
+                      <select
+                        className="outline-none rounded p-2"
+                        value={filterPosition}
+                        onChange={(e) => handleFilterChange(e, 'position')}
+                      >
+                        {positions.map((position) => (
+                          <option key={position} value={position}>
+                            {position}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <button onClick={applyFilters} className="bg-blue-700 text-white rounded p-2">
+                      Apply Filters
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
             <table className="bg-white">
               <thead>
@@ -177,6 +248,7 @@ function Dashboard() {
                   <th className="px-2 py-2">Name</th>
                   <th className="px-2 py-2">Position</th>
                   <th className="px-2 py-2">Division</th>
+                  <th className="px-2 py-2">Working Status</th>
                   <th className="px-2 py-2">Salary</th>
                   <th className="px-2 py-2">Join Date</th>
                   <th className="px-2 py-2">Action</th>
@@ -193,6 +265,7 @@ function Dashboard() {
                       </td>
                       <td className="px-2 py-2 text-sm md:text-base">{employee.position}</td>
                       <td className="px-2 py-2 text-sm md:text-base">{employee.division}</td>
+                      <td className="px-2 py-2 text-sm md:text-base">{employee.workingStatus}</td>
                       <td className="px-2 py-2 text-sm md:text-base">Rp {employee.salary}</td>
                       <td className="px-2 py-2 text-sm md:text-base">{moment(employee.joinDate).format("DD-MM-YYYY")}</td>
                       <td className="p-4">

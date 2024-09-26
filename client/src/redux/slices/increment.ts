@@ -5,7 +5,7 @@ export interface autoIncrement {
 }
 
 const initialState: autoIncrement = {
-    counter: 0
+    counter: 1
 }
 
 const CounterNIP = createSlice({
