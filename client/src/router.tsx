@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import Dashboard from './pages/Dashboard.js';
 import CreateEmployeeForm from "./pages/Create.js";
 import Index from './pages/index';
+import Detailpage from "./pages/Detailpage.js";
+import EditEmployeeForm from "./pages/Edit.js";
 
 function Error() {
     return <div>Error</div>
@@ -23,6 +25,14 @@ const RouterWithChildren = createBrowserRouter([{
     {
         path: 'create',
         element: <CreateEmployeeForm/>
+    },
+    {
+        path: 'details/:id',
+        element: <Detailpage/>
+    },
+    {
+        path: 'edit/:id',
+        element: <EditEmployeeForm/>
     },
     {
         path:"*", 

@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import eye from '../assets/icons/eye.svg';
 import edit from '../assets/icons/edit.svg';
 import deleteIcon from '../assets/icons/trash.svg';
+import Swal from 'sweetalert2';
 
 interface responseData {
-  nip: string;
+  id: string;
   firstName: string;
   lastName: string;
   address: string;
@@ -20,19 +21,17 @@ interface responseData {
 
 function Dashboard() {
   const [employees, setEmployees] = useState<responseData[]>([]);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<boolean>(false); 
+  const [error, setError] = useState<boolean>(false);
+  const navigate = useNavigate()
 
-  // Fetch data from API
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
         const response = await axios.get('http://localhost:3001/employees');
         setEmployees(response.data);
         console.log(response.data)
-        setLoading(false); 
+        setLoading(false);
       } catch (error) {
         console.error('Failed to fetch sales data', error);
       }
@@ -41,37 +40,78 @@ function Dashboard() {
     fetchEmployees();
   }, []);
 
+  const handleDetail = async (id: string) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: `You are about to see employee with NIP ${id} details`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    })
+    if (result.isConfirmed) {
+      navigate(`/details/${id}`)
+      Swal.fire('Redirected!', 'You are being redirected to the details page.', 'success');
+    }
+  }
 
-  const handleDelete = (id: string) => {
-    setSelectedEmployeeId(id);
-    setShowModal(true);
-  };
+  const handleEdit = async (id: string) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: `You are about to edit employee with NIP ${id} !`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, edit it!'
+    });
 
-  const confirmDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:3001/employees/${selectedEmployeeId}`);
-      setEmployees(employees.filter((employee) => employee.nip !== selectedEmployeeId));
-      setShowModal(false);
-    } catch (error) {
-      console.error('Failed to delete employee:', error);
-      setError(true)
+    if (result.isConfirmed) {
+      navigate(`/edit/${id}`);
+      Swal.fire('Redirected!', 'You are being redirected to the edit page.', 'success');
     }
   };
-  
-  const handleCloseModal = () => {
-    setShowModal(false);
+
+  const handleDelete = async (id: string) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await axios.delete(`http://localhost:3001/employees/${id}`);
+
+        if (res.status !== 200) {
+          throw new Error('Failed to delete');
+        }
+        setEmployees(employees.filter((employee) => employee.id !== id));
+        Swal.fire('Deleted!', 'The employee has been deleted.', 'success');
+      } catch (error) {
+        console.error('Failed to delete employee:', error);
+        setError(true);
+        Swal.fire('Error!', 'Failed to delete the employee.', 'error');
+      }
+    }
   };
+
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>; 
+    return <div>{error}</div>;
   }
 
   return (
-    <main className="flex flex-col pb-16 px-4 tbt:px-10 lg:px-32 bg-neutral-100 font-mulish h-screen">
+    <main className="flex flex-col pb-16 px-2 tbt:px-10 lg:px-32 bg-neutral-100 font-mulish h-screen">
       <section className="flex flex-col self-center mt-16 w-full bg-white rounded-3xl max-w-[1105px] max-md:mt-10 max-md:max-w-full bg-slate-100 border-2">
         <div className="flex flex-col px-14 pt-6 pb-10 w-full bg-white rounded-3xl max-md:px-5 max-md:max-w-full">
           <div className="flex flex-wrap gap-5 justify-between w-full max-md:max-w-full">
@@ -92,43 +132,43 @@ function Dashboard() {
           <div className="overflow-x-auto mt-5 tbt:self-center">
             <table className="bg-white">
               <thead>
-                <tr className="text-left text-xs md:text-base font-bold text-sky-900">
-                  <th className="px-4 py-2">No</th>
-                  <th className="px-4 py-2">NIP</th>
-                  <th className="px-4 py-2">Name</th>
-                  <th className="px-4 py-2">Position</th>
-                  <th className="px-4 py-2">Division</th>
-                  <th className="px-4 py-2">Salary</th>
-                  <th className="px-4 py-2">Join Date</th>
-                  <th className="px-4 py-2">Action</th>
+                <tr className="text-center text-xs md:text-base font-bold text-sky-900">
+                  <th className="px-2 py-2">No</th>
+                  <th className="px-2 py-2">NIP</th>
+                  <th className="px-2 py-2">Name</th>
+                  <th className="px-2 py-2">Position</th>
+                  <th className="px-2 py-2">Division</th>
+                  <th className="px-2 py-2">Salary</th>
+                  <th className="px-2 py-2">Join Date</th>
+                  <th className="px-2 py-2">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {employees.length > 0 ? (
                   employees.map((employee, index) => (
-                    <tr key={employee.nip} className="border-t">
-                      <td className="px-4 py-2">{index + 1}</td>
-                      <td className="px-4 py-2">{employee.nip}</td>
-                      <td className="px-4 py-2 text-sm md:text-base text-primary">
+                    <tr key={employee.id} className="border-t">
+                      <td className="px-2 py-2">{index + 1}</td>
+                      <td className="px-2 py-2">{employee.id}</td>
+                      <td className="px-2 py-2 text-sm md:text-base text-primary">
                         {`${employee.firstName} ${employee.lastName}`}
                       </td>
-                      <td className="px-4 py-2 text-sm md:text-base">{employee.position}</td>
-                      <td className="px-4 py-2 text-sm md:text-base">{employee.division}</td>
-                      <td className="px-4 py-2 text-sm md:text-base">Rp {employee.salary}</td>
-                      <td className="px-4 py-2 text-sm md:text-base">{employee.joinDate}</td>
+                      <td className="px-2 py-2 text-sm md:text-base">{employee.position}</td>
+                      <td className="px-2 py-2 text-sm md:text-base">{employee.division}</td>
+                      <td className="px-2 py-2 text-sm md:text-base">Rp {employee.salary}</td>
+                      <td className="px-2 py-2 text-sm md:text-base">{employee.joinDate}</td>
                       <td className="p-4">
                         <div className="flex gap-2">
-                          <button className="bg-blue-500 text-white p-2 rounded w-8 md:w-10 h-8 md:h-10">
+                          <button onClick={() => handleDetail(employee.id)} className="bg-blue-500 text-white p-2 rounded w-8 md:w-10 h-8 md:h-10">
                             <div className="grid place-items-center">
                               <img src={eye} alt="view" />
                             </div>
                           </button>
-                          <button className="bg-[#5D5FEF] text-white p-2 rounded w-8 md:w-10 h-8 md:h-10">
+                          <button onClick={() => handleEdit(employee.id)} className="bg-[#5D5FEF] text-white p-2 rounded w-8 md:w-10 h-8 md:h-10">
                             <div className="grid place-items-center">
                               <img src={edit} alt="edit" />
                             </div>
                           </button>
-                          <button onClick={() => handleDelete(employee.nip)} className="bg-red-500 text-white p-2 rounded w-8 md:w-10 h-8 md:h-10">
+                          <button onClick={() => handleDelete(employee.id)} className="bg-red-500 text-white p-2 rounded w-8 md:w-10 h-8 md:h-10">
                             <div className="grid place-items-center">
                               <img src={deleteIcon} alt="delete" />
                             </div>
@@ -149,22 +189,6 @@ function Dashboard() {
           </div>
         </div>
       </section>
-      {showModal && (
-        <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded shadow-lg max-w-md w-3/4 tbt:w-full text-center">
-            <h2 className="text-sm tbt:text-2xl font-semibold mb-4">Confirm Delete</h2>
-            <p className="text-xs xsm:text-sm tbt:text-base mb-6">Are you sure you want to delete this employee?</p>
-            <div className="flex justify-center">
-              <button onClick={confirmDelete} className="text-xs tbt:text-base bg-red-500 hover:bg-red-600 active:bg-red-700 text-white px-4 py-2 rounded mr-2">
-                Delete
-              </button>
-              <button onClick={handleCloseModal} className="text-xs tbt:text-base bg-gray-500 hover:bg-gray-600 active:bg-gray-700 text-white px-4 py-2 rounded">
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </main>
   );
 };
