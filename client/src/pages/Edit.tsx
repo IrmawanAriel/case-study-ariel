@@ -13,12 +13,13 @@ interface EmployeeInterface {
     division: string;
     workingStatus?: string;
     birthDate: string;
-    joinDate: string;
+    // joinDate: string;
 }
 
 const EditEmployeeForm = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
+    const [joinDate, setJoinDate] = useState<string>('')
     const [formData, setFormData] = useState<EmployeeInterface>({
         firstName: '',
         lastName: '',
@@ -27,7 +28,7 @@ const EditEmployeeForm = () => {
         salary: '',
         division: '',
         birthDate: '',
-        joinDate: ''
+        // joinDate: ''
     });
 
     useEffect(() => {
@@ -39,7 +40,16 @@ const EditEmployeeForm = () => {
                     throw new Error
                 }
 
-                setFormData(result.data)
+                setFormData({
+                    firstName: result.data.firstName,
+                    lastName: result.data.lastName,
+                    address: result.data.address,
+                    position: result.data.position,
+                    salary: result.data.salary,
+                    division: result.data.division,
+                    birthDate: result.data.birthDate
+                })
+                setJoinDate(result.data.joinDate)
 
             } catch (error) {
                 console.log(error)
@@ -47,8 +57,6 @@ const EditEmployeeForm = () => {
         }
         getData()
     }, [id])
-
-    console.log()
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -58,7 +66,6 @@ const EditEmployeeForm = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // SweetAlert confirmation
         const confirmation = await Swal.fire({
             title: 'Konfirmasi',
             text: 'Apakah Anda yakin ingin mengedit data ini?',
@@ -70,6 +77,7 @@ const EditEmployeeForm = () => {
 
         if (confirmation.isConfirmed) {
             try {
+                console.log("confirmation")
                 console.log(formData);
                 const res = await axios.put(`http://localhost:3001/employees/${id}`, formData)
                 if (res.status !== 200) {
@@ -201,7 +209,7 @@ const EditEmployeeForm = () => {
                             className='outline-none border rounded-lg w-full p-4'
                             type="date"
                             name="joinDate"
-                            value={formData.joinDate}
+                            value={joinDate}
                             disabled={true}
                         />
                     </div>

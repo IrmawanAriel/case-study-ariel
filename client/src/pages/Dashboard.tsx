@@ -5,6 +5,7 @@ import eye from '../assets/icons/eye.svg';
 import edit from '../assets/icons/edit.svg';
 import deleteIcon from '../assets/icons/trash.svg';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 
 interface responseData {
   id: string;
@@ -155,7 +156,7 @@ function Dashboard() {
                       <td className="px-2 py-2 text-sm md:text-base">{employee.position}</td>
                       <td className="px-2 py-2 text-sm md:text-base">{employee.division}</td>
                       <td className="px-2 py-2 text-sm md:text-base">Rp {employee.salary}</td>
-                      <td className="px-2 py-2 text-sm md:text-base">{employee.joinDate}</td>
+                      <td className="px-2 py-2 text-sm md:text-base">{moment(employee.joinDate).format("DD-MM-YYYY")}</td>
                       <td className="p-4">
                         <div className="flex gap-2">
                           <button onClick={() => handleDetail(employee.id)} className="bg-blue-500 text-white p-2 rounded w-8 md:w-10 h-8 md:h-10">
