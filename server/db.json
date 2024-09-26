@@ -1,0 +1,15 @@
+{
+  "employees": [
+    {
+      "nip": "AQI-1212023-001",
+      "firstName": "Budi",
+      "lastName": "Newgate",
+      "address": "Jalan Wahid hasyim no 8",
+      "position": "Javascript Developer",
+      "salary": 7000000,
+      "division": "Kintone",
+      "birthDate": "03-12-1997",
+      "joinDate": "13-11-2024"
+    }
+  ]
+}
