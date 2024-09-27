@@ -205,7 +205,7 @@ function Dashboard() {
 
               <div className="flex gap-4 p-3 tracking-wider bg-white rounded border border-solid border-neutral-200 text-slate-400">
                 <img loading="lazy" src={SearchLight} alt="" className="object-contain shrink-0 w-6 aspect-square" />
-                <input type="text" className="flex-auto outline-none" placeholder="New Born Expert" onKeyDown={(e) => {
+                <input type="text" className="flex-auto outline-none" placeholder="Search Employee Name" onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     setSearch((e.target as HTMLInputElement).value);
                   }

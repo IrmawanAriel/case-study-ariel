@@ -1,30 +1,6 @@
 {
   "employees": [
     {
-      "id": "AQI-27092024-1",
-      "firstName": "testing",
-      "lastName": "irmawan",
-      "address": "5HXJ+HFV, Jl. Vila Istana Bunga, Cihanjuang Rahayu, Kec. Parongpong, Kabupaten Bandung Barat, Jawa Barat 40559",
-      "position": "Manager",
-      "salary": "5000000",
-      "division": "Marketing",
-      "birthDate": "2024-09-28",
-      "joinDate": "2024-09-27",
-      "workingStatus": "Contract"
-    },
-    {
-      "id": "AQI-26092024-2",
-      "firstName": "testing",
-      "lastName": "irmawan",
-      "address": "5HXJ+HFV, Jl. Vila Istana Bunga, Cihanjuang Rahayu, Kec. Parongpong, Kabupaten Bandung Barat, Jawa Barat 40559",
-      "position": "Manager",
-      "salary": "5000000",
-      "division": "Engineering",
-      "birthDate": "2024-09-26",
-      "joinDate": "2024-09-26",
-      "workingStatus": "Contract"
-    },
-    {
       "firstName": "Budi",
       "lastName": "Newgate",
       "address": "Jalan Wahid hasyim no 8",
@@ -32,8 +8,21 @@
       "salary": 7000000,
       "division": "Kintone",
       "birthDate": "0012-12-31",
+      "joinDate": "2024-09-27",
       "workingStatus": "Active",
       "id": "AQI-1212023-001"
+    },
+    {
+      "id": "AQI-27092024-005",
+      "firstName": "jackson",
+      "lastName": "Newgate",
+      "address": "Jalan Wahid hasyim no 8",
+      "position": "Manager",
+      "salary": "30000000",
+      "division": "Finance",
+      "birthDate": "2024-09-27",
+      "joinDate": "2024-09-27",
+      "workingStatus": "Active"
     }
   ]
 }
