@@ -13,7 +13,6 @@ interface EmployeeInterface {
     division: string;
     workingStatus: string;
     birthDate: string;
-    // joinDate: string;
 }
 
 const EditEmployeeForm = () => {
@@ -29,7 +28,6 @@ const EditEmployeeForm = () => {
         division: '',
         birthDate: '',
         workingStatus: ''
-        // joinDate: ''
     });
 
     useEffect(() => {

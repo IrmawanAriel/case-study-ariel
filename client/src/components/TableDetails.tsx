@@ -45,7 +45,7 @@ export default function TableDetails({Employee}: propsEmployeeDetail) {
                             </tr>
                             <tr>
                                 <td className="border px-4 py-2 font-bold">Salary:</td>
-                                <td className="border px-4 py-2">{Employee.salary}</td>
+                                <td className="border px-4 py-2">Rp.{Employee.salary}</td>
                             </tr>
                             <tr>
                                 <td className="border px-4 py-2 font-bold">Working Status:</td>
