@@ -1,18 +1,6 @@
 {
   "employees": [
     {
-      "id": "AQI-26092024-0",
-      "firstName": "ariel",
-      "lastName": "irmawan",
-      "address": "5HXJ+HFV, Jl. Vila Istana Bunga, Cihanjuang Rahayu, Kec. Parongpong, Kabupaten Bandung Barat, Jawa Barat 40559",
-      "position": "Team Lead",
-      "salary": "5000000",
-      "division": "Engineering",
-      "birthDate": "2024-09-26",
-      "joinDate": "2024-09-26",
-      "workingStatus": "Active"
-    },
-    {
       "id": "AQI-27092024-1",
       "firstName": "testing",
       "lastName": "irmawan",
@@ -46,28 +34,6 @@
       "birthDate": "0012-12-31",
       "workingStatus": "Active",
       "id": "AQI-1212023-001"
-    },
-    {
-      "firstName": "ariel",
-      "lastName": "irmawan",
-      "address": "5HXJ+HFV, Jl. Vila Istana Bunga, Cihanjuang Rahayu, Kec. Parongpong, Kabupaten Bandung Barat, Jawa Barat 40559",
-      "position": "Team Lead",
-      "salary": "5000000",
-      "division": "Marketing",
-      "birthDate": "2001-12-12",
-      "workingStatus": "Active",
-      "id": "AQI-121220001-001"
-    },
-    {
-      "firstName": "thimoty",
-      "lastName": "Newgate",
-      "address": "Jatimulya, Tambun Selatan, Bekasi",
-      "position": "Team Lead",
-      "salary": "21000000",
-      "division": "Marketing",
-      "birthDate": "2001-12-12",
-      "workingStatus": "Contract",
-      "id": "AQI-12122009-001"
     }
   ]
 }

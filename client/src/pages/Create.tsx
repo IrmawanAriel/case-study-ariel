@@ -42,7 +42,8 @@ const CreateEmployeeForm = () => {
 
   const generateNIP = (joinDate: string): string => {
     const formattedDate = joinDate.split('-').reverse().join('');
-    return `AQI-${formattedDate}-${counter}`;
+    const formattedCounter = String(counter).padStart(3, '0');
+    return `AQI-${formattedDate}-${formattedCounter}`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
