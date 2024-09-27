@@ -91,9 +91,9 @@ export default function TableDashboard ({employee , reload, setError}:EmployeePr
           }
         }
       };
-      
+
   return (
-    <table className="bg-white">
+    <table className="bg-white ">
               <thead>
                 <tr className="text-center text-xs md:text-base font-bold text-sky-900">
                   <th className="px-2 py-2">No</th>

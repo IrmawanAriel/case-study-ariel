@@ -105,8 +105,8 @@ function Dashboard() {
 
   return (
     <main className="flex flex-col pb-16 px-2 tbt:px-10 lg:px-32 bg-neutral-100 font-mulish h-screen">
-      <section className="flex flex-col self-center my-16 w-full bg-white rounded-3xl max-w-[1105px] max-md:mt-10 max-md:max-w-full bg-slate-100 border-2">
-        <div className="flex flex-col px-14 pt-6 pb-10 w-full bg-white rounded-3xl max-md:px-5 max-md:max-w-full">
+      <section className="flex flex-col self-center my-16 w-full h-full bg-white rounded-3xl max-w-[1105px] max-md:mt-10 max-md:max-w-full bg-slate-100 border-2">
+        <div className="flex flex-col px-14 pt-6 pb-10 w-full bg-white rounded-3xl max-md:px-5 max-md:max-w-full  h-full">
           <div className="flex flex-wrap gap-5 justify-between w-full max-md:max-w-full">
             <h1 className="my-auto text-2xl font-bold text-slate-900">List Employees</h1>
             <Link to="create">
@@ -122,8 +122,8 @@ function Dashboard() {
               </Link>
             </div>
           </div>
-          <div className="overflow-x-auto mt-5">
-            <div className="relative flex justify-between">
+          <div className="overflow-x-auto mt-5 h-full">
+            <div className="relative flex justify-between ">
               <button
                 className='p-2 rounded-lg bg-green-400 flex items-center gap-2'
                 onClick={() => setDropdownVisible(!dropdownVisible)}
