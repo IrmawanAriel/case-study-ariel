@@ -23,6 +23,18 @@
       "birthDate": "2001-12-12",
       "joinDate": "2024-10-09",
       "workingStatus": "Active"
+    },
+    {
+      "id": "AQI-11092024-008",
+      "firstName": "ariel",
+      "lastName": "irmawan",
+      "address": "5HXJ+HFV, Jl. Vila Istana Bunga, Cihanjuang Rahayu, Kec. Parongpong, Kabupaten Bandung Barat, Jawa Barat 40559",
+      "position": "Team Lead",
+      "salary": "40000000",
+      "division": "HR",
+      "birthDate": "2024-09-25",
+      "joinDate": "2024-09-11",
+      "workingStatus": "Probation"
     }
   ]
 }

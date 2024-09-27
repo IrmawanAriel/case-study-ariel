@@ -142,7 +142,7 @@ function Dashboard() {
               </div>
 
               {dropdownVisible && (
-                <div className="absolute z-10 bg-white shadow-md rounded p-4">
+                <div className="absolute mt-16 z-50 bg-white shadow-md rounded p-4 bg-gray-400	">
                   <div className="flex flex-col">
                     <div className="mb-4">
                       <label className="font-bold mr-2">Filter by Division:</label>
