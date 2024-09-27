@@ -8,8 +8,6 @@ import threeDots from '../assets/icons/threeDots.svg'
 import SearchLight from '../assets/icons/SearchLight.svg'
 import Swal from 'sweetalert2';
 import moment from 'moment';
-// import { useStoreDispatch } from '../redux/hooks';
-// import { setDecrementCounter } from '../redux/slices/increment';
 
 interface responseData {
   id: string;

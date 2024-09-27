@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import edit from '../assets/icons/edit.svg';
 import deleteIcon from '../assets/icons/trash.svg';
-import moment from "moment";
+import TableDetails from "../components/TableDetails";
 
 interface EmployeeInterface {
     id: string;
@@ -16,6 +16,7 @@ interface EmployeeInterface {
     division: string;
     birthDate: string;
     joinDate: string;
+    workingStatus: string
 }
 
 const Detailpage = () => {
@@ -37,7 +38,7 @@ const Detailpage = () => {
             } catch (error) {
                 console.error("Failed to fetch employee:", error);
                 setLoading(false);
-                // SweetAlert error notification
+                
                 Swal.fire("Error", "Failed to fetch employee details", "error");
             }
         };
@@ -110,44 +111,8 @@ const Detailpage = () => {
                     <h1 className="my-auto text-2xl font-bold text-slate-900">Employee Details</h1>
                 </div>
 
-                <div className="mt-6">
-                    <table className="min-w-full table-auto border-collapse border rounded-lg border-slate-500">
-                        <tbody>
-                            <tr>
-                                <td className="border px-4 py-2 font-bold">First Name:</td>
-                                <td className="border px-4 py-2">{detailEmployee.firstName}</td>
-                            </tr>
-                            <tr>
-                                <td className="border px-4 py-2 font-bold">Last Name:</td>
-                                <td className="border px-4 py-2">{detailEmployee.lastName}</td>
-                            </tr>
-                            <tr>
-                                <td className="border px-4 py-2 font-bold">Address:</td>
-                                <td className="border px-4 py-2">{detailEmployee.address}</td>
-                            </tr>
-                            <tr>
-                                <td className="border px-4 py-2 font-bold">Position:</td>
-                                <td className="border px-4 py-2">{detailEmployee.position}</td>
-                            </tr>
-                            <tr>
-                                <td className="border px-4 py-2 font-bold">Salary:</td>
-                                <td className="border px-4 py-2">{detailEmployee.salary}</td>
-                            </tr>
-                            <tr>
-                                <td className="border px-4 py-2 font-bold">Division:</td>
-                                <td className="border px-4 py-2">{detailEmployee.division}</td>
-                            </tr>
-                            <tr>
-                                <td className="border px-4 py-2 font-bold">Birth Date:</td>
-                                <td className="border px-4 py-2">{moment(detailEmployee.birthDate).format("DD/MM/YYYY")}</td>
-                            </tr>
-                            <tr>
-                                <td className="border px-4 py-2 font-bold">Join Date:</td>
-                                <td className="border px-4 py-2">{moment(detailEmployee.joinDate).format("DD/MM/YYYY")}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <TableDetails Employee={detailEmployee}/>
+
                 <div className="flex gap-4">
                     <button onClick={() => handleEdit(detailEmployee.id)} className="bg-[#5D5FEF] text-white p-2 rounded w-8 md:w-10 h-8 md:h-10">
                         <div className="grid place-items-center">
