@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate, Search } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import eye from '../assets/icons/eye.svg';
 import edit from '../assets/icons/edit.svg';
 import deleteIcon from '../assets/icons/trash.svg';
@@ -32,7 +32,6 @@ function Dashboard() {
   const [filterDivision, setFilterDivision] = useState<string>("All");
   const [filterWorkingStatus, setFilterWorkingStatus] = useState<string>("All");
   const [filterPosition, setFilterPosition] = useState<string>("All");
-  const [Name, setName] = useState<string>('')
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
 
   const navigate = useNavigate();
