@@ -19,7 +19,7 @@ interface responseData {
 }
 
 function Dashboard() {
-  const [employees, setEmployees] = useState<responseData[]>([]);
+  const [employees, setEmployees] = useState<responseData[]>([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<boolean>(false);
   const [filteredEmployees, setFilteredEmployees] = useState<responseData[]>([]);
@@ -28,11 +28,12 @@ function Dashboard() {
   const [filterPosition, setFilterPosition] = useState<string>("All");
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
 
+  // opsi data untuk filtrasi
   const divisions = ["All", "HR", "Engineering", "Finance", "Marketing"];
   const workingStatuses = ["All", "Active", "Inactive"];
   const positions = ["All", "Manager", "Developer", "Designer", "Analyst"];
 
-  const fetchEmployees = async () => {
+  const fetchEmployees = async () => { // function pemanggil API
     try {
       const response = await axios.get('http://localhost:3001/employees');
       setEmployees(response.data);
@@ -43,22 +44,22 @@ function Dashboard() {
     }
   };
 
-  useEffect(() => {
+  useEffect(() => { // jalankan Pemanggilan disaat aplikasi jalan
     fetchEmployees();
   }, []);
 
-  const setSearch = (name: string) => {
+  const setSearch = (name: string) => { // 
     
-    const employeesByName = employees.filter((employee) => 
+    const employeesByName = employees.filter((employee) => // define sebuah set data baru yang sudah di filter by fullname
       `${employee.firstName} ${employee.lastName}`
         .toLowerCase()
         .includes(name.toLowerCase())
     );
     
-    setFilteredEmployees(employeesByName); 
+    setFilteredEmployees(employeesByName); // set data kedalam use state employees
   };
 
-  const applyFilters = () => {
+  const applyFilters = () => { // 
     setDropdownVisible(false)
     let filteredData = employees;
 
@@ -74,7 +75,8 @@ function Dashboard() {
       filteredData = filteredData.filter((employee) => employee.position === filterPosition);
     }
 
-    setFilteredEmployees(filteredData);
+ setFilteredEmployees(filteredData); // assign data baru kedalam use state employees yang sudah di filter by division, working status, and position
+
   };
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>, filterType: string) => {
